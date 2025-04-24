@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const url = process.env.DB_URl
 
 // asynchoruns fumction - returns promise
-mongoose.coonect(url)
+mongoose.connect(url)
 .then((result) => {
     console.log('database connected')
 })
