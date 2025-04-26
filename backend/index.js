@@ -1,13 +1,21 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors')
 const UserRouter = require('./routers/userRouter');
+const CourseRouter = require('./routers/courseRouter');
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
 //middleware
+
+app.use(cors({
+    origin: '*'
+}))
+app.use(express.json());
 app.use('/user', UserRouter);
+app.use('/course', CourseRouter);
 
 //end point route
 app.get('/',(req, res) => {
@@ -21,5 +29,5 @@ app.get('/add',(req, res) => {
 //delete ka banana hai
 
 app.listen(port, () => {
-    console.log('server started');
+    console.log(`server started - ${port}`);
 });

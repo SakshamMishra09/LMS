@@ -1,10 +1,15 @@
 const { Schema, model } = require('../connection');
 
 const mySchema = new Schema({
+    owner: { type: Schema.Types.ObjectId, ref: 'users' },
     title: String,
-    price: { type: String, unique: true },
+    description: String,
+    image: String,
+    category: String,
+    level: String,
+    price: { type: String },
     duration: { type: String, required: true },
-    createadAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = model('course', mySchema);
