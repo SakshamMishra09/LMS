@@ -43,4 +43,18 @@ router.delete('/delete/:id', (req, res) => {
         });
 });
 
+// Add this route handler
+router.get('/getbyid/:id', (req, res) => {
+    Model.findById(req.params.id)
+        .then((result) => {
+            if(!result) {
+                return res.status(404).json({ message: 'Course not found' });
+            }
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
 module.exports = router;
