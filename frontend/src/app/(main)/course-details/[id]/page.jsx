@@ -2,12 +2,15 @@
 import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import {jwtDecode} from 'jwt-decode';
+import toast from 'react-hot-toast';
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -29,25 +32,62 @@ const CourseDetails = () => {
     fetchCourseDetails();
   }, [id]);
 
+  const token = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+  let decodedId;
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      decodedId = decodedToken._id; // Ensure the ID is extracted correctly
+      // console.log('Decoded ID:', decodedId); // Debugging line to check the decoded ID
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
+  }
+
+  // Check enrollment status
+  useEffect(() => {
+    const checkEnrollmentStatus = async () => {
+      if (!decodedId || !id) return;
+      
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enroll/checkstatus/${decodedId}/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to check enrollment status');
+        }
+        const data = await response.json();
+        setIsEnrolled(data.enrolled);
+      } catch (err) {
+        console.error('Error checking enrollment status:', err);
+      }
+    };
+
+    checkEnrollmentStatus();
+  }, [decodedId, id]);
+
   const handleEnroll = async () => {
     try {
-      const userId = "12345"; // Replace with actual user ID from context or authentication
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enroll`, {
+      if (!decodedId) {
+        throw new Error('User ID is not available. Please log in again.');
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enroll/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ courseId: id, userId }),
+        body: JSON.stringify({ courseId: id, userId: decodedId }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to enroll in the course');
       }
 
-      alert('Successfully enrolled in the course!');
+      setIsEnrolled(true);
+      toast.success('Successfully enrolled in the course!');
+      console.log('Successfully enrolled in the course!', response.data);
     } catch (err) {
       console.error('Error enrolling in the course:', err);
-      alert('Error enrolling in the course. Please try again later.');
+      alert(err.message || 'Error enrolling in the course. Please try again later.');
     }
   };
 
@@ -144,9 +184,17 @@ const CourseDetails = () => {
               <p className="text-gray-600">Price:</p>
               <p className="text-3xl font-bold text-blue-600">{course.price ? `$${course.price}` : 'Free'}</p>
             </div>
-            <Link href="#" onClick={handleEnroll} className="px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-              Enroll Now
-            </Link>
+            <button 
+              onClick={handleEnroll}
+              disabled={isEnrolled}
+              className={`px-8 py-3 rounded-md transition-colors ${
+                isEnrolled 
+                  ? 'bg-gray-400 cursor-not-allowed text-white'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              {isEnrolled ? 'Already Enrolled' : 'Enroll Now'}
+            </button>
           </div>
         </div>
       </div>
