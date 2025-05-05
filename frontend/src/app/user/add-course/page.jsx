@@ -14,8 +14,8 @@ const AddCourse = () => {
             category: '',
             level: '',
             price: '',
-            duration: ''
-            
+            duration: '',
+            language: '',
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Title is required'),
@@ -23,8 +23,9 @@ const AddCourse = () => {
             image: Yup.string().url('Invalid URL').required('Image URL is required'),
             category: Yup.string().required('Category is required'),
             level: Yup.string().required('Level is required'),
-            price: Yup.number().typeError('Price must be a number').required('Price is required'),
-            duration: Yup.string().required('Duration is required')
+            price: Yup.string().required('Price is required'),
+            duration: Yup.string().required('Duration is required'),
+            language: Yup.string().required('Language is required')
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -172,6 +173,22 @@ const AddCourse = () => {
                     />
                     {formik.touched.duration && formik.errors.duration ? (
                         <div className="text-red-400 text-sm">{formik.errors.duration}</div>
+                    ) : null}
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="language" className="block font-bold mb-2">Language</label>
+                    <input
+                        type="text"
+                        id="language"
+                        name="language"
+                        className="w-full border rounded p-2 bg-gray-700 text-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.language}
+                    />
+                    {formik.touched.language && formik.errors.language ? (
+                        <div className="text-red-400 text-sm">{formik.errors.language}</div>
                     ) : null}
                 </div>
 
