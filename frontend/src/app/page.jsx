@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import { BookOpen, Users, Award, CalendarDays, Clock, Video, MessageSquare, ChevronRight } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function LMSLandingPage() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,9 @@ export default function LMSLandingPage() {
   };
   
   return (
+    
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Navigation */}
       
@@ -347,5 +351,6 @@ export default function LMSLandingPage() {
       {/* Footer */}
       
     </div>
+    </>
   );
 }

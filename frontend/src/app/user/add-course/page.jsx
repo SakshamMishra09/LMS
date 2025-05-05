@@ -1,13 +1,28 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const AddCourse = () => {
+    const [chapters, setChapters] = useState([]);
     const levels = ['Beginner', 'Intermediate', 'Advanced'];
     const categories = ['Programming', 'Business', 'Design', 'Marketing', 'Languages', 'Personal Development'];
+
+    const addChapter = () => {
+        setChapters([...chapters, { title: '', description: '', videoUrl: '' }]);
+    };
+
+    const removeChapter = (index) => {
+        setChapters(chapters.filter((_, i) => i !== index));
+    };
+
+    const updateChapter = (index, field, value) => {
+        const updatedChapters = [...chapters];
+        updatedChapters[index][field] = value;
+        setChapters(updatedChapters);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -34,10 +49,12 @@ const AddCourse = () => {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/course/add`, values);
+                const courseData = { ...values, chapters };
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/course/add`, courseData);
                 console.log(res.data);
                 toast.success('Course added successfully!');
                 resetForm();
+                setChapters([]);
             } catch (error) {
                 console.error(error);
                 toast.error(error.response?.data?.message || 'Failed to add course');
@@ -218,10 +235,59 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Chapters Section */}
+                <div className="mb-4">
+                    <h2 className="font-bold text-lg mb-2">Chapters</h2>
+                    {chapters.map((chapter, index) => (
+                        <div key={index} className="mb-4 border p-4 rounded bg-gray-700">
+                            <div className="mb-2">
+                                <label className="block font-bold mb-1">Chapter Title</label>
+                                <input
+                                    type="text"
+                                    className="w-full border rounded p-2 bg-gray-600 text-white"
+                                    value={chapter.title}
+                                    onChange={(e) => updateChapter(index, 'title', e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block font-bold mb-1">Chapter Description</label>
+                                <textarea
+                                    className="w-full border rounded p-2 bg-gray-600 text-white"
+                                    value={chapter.description}
+                                    onChange={(e) => updateChapter(index, 'description', e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block font-bold mb-1">Video URL</label>
+                                <input
+                                    type="text"
+                                    className="w-full border rounded p-2 bg-gray-600 text-white"
+                                    value={chapter.videoUrl}
+                                    onChange={(e) => updateChapter(index, 'videoUrl', e.target.value)}
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => removeChapter(index)}
+                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                            >
+                                Remove Chapter
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={addChapter}
+                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    >
+                        Add Chapter
+                    </button>
+                </div>
+
                 <button
                     type="submit"
                     disabled={formik.isSubmitting}
-                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+                    className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 disabled:bg-green-300 disabled:cursor-not-allowed"
                 >
                     {formik.isSubmitting ? 'Adding Course...' : 'Add Course'}
                 </button>

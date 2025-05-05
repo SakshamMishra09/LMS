@@ -91,7 +91,7 @@ const BrowseCourse = () => {
               </div>
               <div className="px-4 py-3 bg-gray-50 border-t flex justify-between items-center">
                 <div>
-                  <span className="text-blue-600 font-bold">{course.price ? `$${course.price}` : 'Free'}</span>
+                  <span className="text-blue-600 font-bold">{course.price ? `₹${course.price}` : 'Free'}</span>
                   <span className="text-gray-500 text-sm ml-2">{course.duration}</span>
                 </div>
                 <Link href={`/course-details/${course._id}`}>

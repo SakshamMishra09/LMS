@@ -65,8 +65,6 @@ router.post('/authenticate', (req, res) => {
                         res.status(200).json({token });
                     }
                 }
-
-            
             )
 
         } else {

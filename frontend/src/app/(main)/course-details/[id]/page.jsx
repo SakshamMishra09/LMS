@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
 
 const CourseDetails = () => {
@@ -32,23 +32,22 @@ const CourseDetails = () => {
     fetchCourseDetails();
   }, [id]);
 
-  const token = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+  const token = localStorage.getItem('user');
   let decodedId;
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
-      decodedId = decodedToken._id; // Ensure the ID is extracted correctly
-      // console.log('Decoded ID:', decodedId); // Debugging line to check the decoded ID
+      decodedId = decodedToken._id;
+      // console.log('Decoded ID:', decodedId);
     } catch (error) {
       console.error('Error decoding token:', error);
     }
   }
 
-  // Check enrollment status
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       if (!decodedId || !id) return;
-      
+
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enroll/checkstatus/${decodedId}/${id}`);
         if (!response.ok) {
@@ -84,7 +83,6 @@ const CourseDetails = () => {
 
       setIsEnrolled(true);
       toast.success('Successfully enrolled in the course!');
-      console.log('Successfully enrolled in the course!', response.data);
     } catch (err) {
       console.error('Error enrolling in the course:', err);
       alert(err.message || 'Error enrolling in the course. Please try again later.');
@@ -130,7 +128,6 @@ const CourseDetails = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      {/* Back button */}
       <div className="mb-6">
         <Link href="/browse-course">
           <button className="flex items-center text-blue-500 hover:text-blue-700">
@@ -143,7 +140,6 @@ const CourseDetails = () => {
       </div>
 
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Course Header */}
         <div className="relative">
           {course.image ? (
             <div className="h-64 md:h-96">
@@ -166,7 +162,6 @@ const CourseDetails = () => {
           </div>
         </div>
 
-        {/* Course Details */}
         <div className="p-6">
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">{course.level}</span>
@@ -177,6 +172,33 @@ const CourseDetails = () => {
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-2">About This Course</h2>
             <p className="text-gray-700">{course.description || 'No description available for this course.'}</p>
+          </div>
+
+          {/* Chapters Section */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold mb-4">Chapters</h2>
+            {course.chapters && course.chapters.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {course.chapters.map((chapter, index) => (
+                  <div key={index} className="bg-white rounded-lg shadow-md p-4">
+                    <h3 className="font-bold text-lg mb-2">{chapter.title}</h3>
+                    <p className="text-gray-700 mb-4">{chapter.description}</p>
+                    {chapter.videoUrl && (
+                      <a
+                        href={chapter.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Watch Video
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No chapters available for this course.</p>
+            )}
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-gray-200 pt-6">
