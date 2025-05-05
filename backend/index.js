@@ -4,6 +4,8 @@ const cors = require('cors')
 const UserRouter = require('./routers/userRouter');
 const CourseRouter = require('./routers/courseRouter');
 const EnrollRouter = require('./routers/enrollRouter');
+const feedbackrouter = require('./routers/Feedbackrouters');
+
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use('/user', UserRouter);
 app.use('/course', CourseRouter);
 app.use('/enroll', EnrollRouter);
+app.use('/feedback', feedbackrouter);
 
 //end point route
 app.get('/',(req, res) => {
