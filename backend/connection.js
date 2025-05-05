@@ -12,6 +12,6 @@ mongoose.connect(url)
    console.log(err);
 });
 
-console.log('other statement');
+// console.log('other statement');
 
 module.exports = mongoose;

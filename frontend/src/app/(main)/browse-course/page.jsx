@@ -62,7 +62,7 @@ const BrowseCourse = () => {
               {course.image ? (
                 <div className="h-48 overflow-hidden">
                   <img 
-                    src={course.image.startsWith('http') ? course.image : `http://localhost:5000/${course.image}`}
+                    src={course.image}
                     alt={course.title || "Course image"}
                     className="w-full h-full object-cover"
                   />

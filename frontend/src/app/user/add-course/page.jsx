@@ -15,6 +15,7 @@ const AddCourse = () => {
             level: '',
             price: '',
             duration: ''
+            
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Title is required'),

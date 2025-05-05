@@ -29,6 +29,28 @@ const CourseDetails = () => {
     fetchCourseDetails();
   }, [id]);
 
+  const handleEnroll = async () => {
+    try {
+      const userId = "12345"; // Replace with actual user ID from context or authentication
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enroll`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courseId: id, userId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to enroll in the course');
+      }
+
+      alert('Successfully enrolled in the course!');
+    } catch (err) {
+      console.error('Error enrolling in the course:', err);
+      alert('Error enrolling in the course. Please try again later.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto py-10 text-center">
@@ -122,9 +144,9 @@ const CourseDetails = () => {
               <p className="text-gray-600">Price:</p>
               <p className="text-3xl font-bold text-blue-600">{course.price ? `$${course.price}` : 'Free'}</p>
             </div>
-            <button className="px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+            <Link href="#" onClick={handleEnroll} className="px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
               Enroll Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

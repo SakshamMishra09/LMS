@@ -12,4 +12,4 @@ const mySchema = new Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = model('course', mySchema);
+module.exports = model('courses', mySchema);

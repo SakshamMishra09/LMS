@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors')
 const UserRouter = require('./routers/userRouter');
 const CourseRouter = require('./routers/courseRouter');
+const EnrollRouter = require('./routers/enrollRouter');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/user', UserRouter);
 app.use('/course', CourseRouter);
+app.use('/enroll', EnrollRouter);
 
 //end point route
 app.get('/',(req, res) => {
