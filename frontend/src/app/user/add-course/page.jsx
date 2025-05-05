@@ -6,6 +6,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const AddCourse = () => {
+    const levels = ['Beginner', 'Intermediate', 'Advanced'];
+    const categories = ['Programming', 'Business', 'Design', 'Marketing', 'Languages', 'Personal Development'];
+
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -20,9 +23,11 @@ const AddCourse = () => {
         validationSchema: Yup.object({
             title: Yup.string().required('Title is required'),
             description: Yup.string().required('Description is required'),
-            image: Yup.string().url('Invalid URL').required('Image URL is required'),
+            image: Yup.string().required('Image is required'),
             category: Yup.string().required('Category is required'),
-            level: Yup.string().required('Level is required'),
+            level: Yup.string()
+                .oneOf(['Beginner', 'Intermediate', 'Advanced'], 'Invalid level')
+                .required('Level is required'),
             price: Yup.string().required('Price is required'),
             duration: Yup.string().required('Duration is required'),
             language: Yup.string().required('Language is required')
@@ -35,7 +40,7 @@ const AddCourse = () => {
                 resetForm();
             } catch (error) {
                 console.error(error);
-                toast.error('Failed to add course');
+                toast.error(error.response?.data?.message || 'Failed to add course');
             }
         }
     });
@@ -67,8 +72,9 @@ const AddCourse = () => {
         <div className="container mx-auto py-10 bg-gray-900 text-white min-h-screen">
             <h1 className="text-center font-bold text-4xl mb-5">Add New Course</h1>
             <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto bg-gray-800 p-6 rounded shadow">
+                {/* Title field */}
                 <div className="mb-4">
-                    <label htmlFor="title" className="block font-bold mb-2">Title</label>
+                    <label htmlFor="title" className="block font-bold mb-2">Title *</label>
                     <input
                         type="text"
                         id="title"
@@ -83,11 +89,13 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Description field */}
                 <div className="mb-4">
-                    <label htmlFor="description" className="block font-bold mb-2">Description</label>
+                    <label htmlFor="description" className="block font-bold mb-2">Description *</label>
                     <textarea
                         id="description"
                         name="description"
+                        rows="4"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -98,12 +106,14 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Image field */}
                 <div className="mb-4">
-                    <label htmlFor="image" className="block font-bold mb-2">Image</label>
+                    <label htmlFor="image" className="block font-bold mb-2">Image *</label>
                     <input
                         type="file"
                         id="image"
                         name="image"
+                        accept="image/*"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={uploadFile}
                     />
@@ -112,44 +122,56 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Category field */}
                 <div className="mb-4">
-                    <label htmlFor="category" className="block font-bold mb-2">Category</label>
-                    <input
-                        type="text"
+                    <label htmlFor="category" className="block font-bold mb-2">Category *</label>
+                    <select
                         id="category"
                         name="category"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.category}
-                    />
+                    >
+                        <option value="">Select a category</option>
+                        {categories.map(category => (
+                            <option key={category} value={category}>{category}</option>
+                        ))}
+                    </select>
                     {formik.touched.category && formik.errors.category ? (
                         <div className="text-red-400 text-sm">{formik.errors.category}</div>
                     ) : null}
                 </div>
 
+                {/* Level field */}
                 <div className="mb-4">
-                    <label htmlFor="level" className="block font-bold mb-2">Level</label>
-                    <input
-                        type="text"
+                    <label htmlFor="level" className="block font-bold mb-2">Level *</label>
+                    <select
                         id="level"
                         name="level"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.level}
-                    />
+                    >
+                        <option value="">Select a level</option>
+                        {levels.map(level => (
+                            <option key={level} value={level}>{level}</option>
+                        ))}
+                    </select>
                     {formik.touched.level && formik.errors.level ? (
                         <div className="text-red-400 text-sm">{formik.errors.level}</div>
                     ) : null}
                 </div>
 
+                {/* Price field */}
                 <div className="mb-4">
-                    <label htmlFor="price" className="block font-bold mb-2">Price</label>
+                    <label htmlFor="price" className="block font-bold mb-2">Price *</label>
                     <input
                         type="text"
                         id="price"
                         name="price"
+                        placeholder="e.g., Free, $29.99"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -160,12 +182,14 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Duration field */}
                 <div className="mb-4">
-                    <label htmlFor="duration" className="block font-bold mb-2">Duration</label>
+                    <label htmlFor="duration" className="block font-bold mb-2">Duration *</label>
                     <input
                         type="text"
                         id="duration"
                         name="duration"
+                        placeholder="e.g., 2 hours, 8 weeks"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -176,12 +200,14 @@ const AddCourse = () => {
                     ) : null}
                 </div>
 
+                {/* Language field */}
                 <div className="mb-4">
-                    <label htmlFor="language" className="block font-bold mb-2">Language</label>
+                    <label htmlFor="language" className="block font-bold mb-2">Language *</label>
                     <input
                         type="text"
                         id="language"
                         name="language"
+                        placeholder="e.g., English, Spanish"
                         className="w-full border rounded p-2 bg-gray-700 text-white"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -195,9 +221,9 @@ const AddCourse = () => {
                 <button
                     type="submit"
                     disabled={formik.isSubmitting}
-                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
                 >
-                    {formik.isSubmitting ? 'Submitting...' : 'Add Course'}
+                    {formik.isSubmitting ? 'Adding Course...' : 'Add Course'}
                 </button>
             </form>
         </div>
