@@ -21,12 +21,19 @@ const Login = () => {
             try {
                 const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, values);
                 toast.success('Login successful!');
-                // console.log('Login successful:', res.data);
-                // Save the token to localStorage or cookies
+                // Save the token and role to localStorage
                 localStorage.setItem('user', res.data.token);
-                // Redirect to another page (e.g., dashboard)
-                // window.location.href = '/dashboard';
-                router.push('/');
+                if (res.data.role) {
+                    localStorage.setItem('role', res.data.role);
+                }
+                // Redirect based on role
+                if (res.data.role === 'company' || res.data.role === 'user') {
+                    router.push('/');
+                } else if (res.data.role === 'student') {
+                    router.push('/');
+                } else {
+                    router.push('/'); // fallback
+                }
             } catch (error) {
                 console.error(error);
                 if (error.response && error.response.status === 401) {
@@ -39,7 +46,7 @@ const Login = () => {
     });
 
     return (
-        <div className="bg-gray-500 py-20 ">
+        <div className="py-20 ">
             <div className="max-w-lg mx-auto mt-7 bg-white border border-gray-200 rounded-xl shadow-2xs">
                 <div className="p-4 sm:p-7">
                     <div className="text-center">

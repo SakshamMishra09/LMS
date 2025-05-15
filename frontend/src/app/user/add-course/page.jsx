@@ -84,6 +84,28 @@ const AddCourse = () => {
                 toast.error('File upload failed!');
             });
     };
+    const uploadVideoFile = (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            return toast.error('Please select a file');
+        }
+        console.log(file);
+
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', 'hoodhogan');
+        fd.append('cloud_name', 'ddsnnqpbv');
+
+        axios.post('https://api.cloudinary.com/v1_1/ddsnnqpbv/image/upload', fd)
+            .then((result) => {
+                console.log(result.data.url);
+                formik.setFieldValue('image', result.data.url);
+                toast.success('File uploaded successfully!');
+            }).catch((err) => {
+                console.log(err);
+                toast.error('File upload failed!');
+            });
+    };
 
     return (
         <div className="container mx-auto py-10 bg-gray-900 text-white min-h-screen">
@@ -261,10 +283,34 @@ const AddCourse = () => {
                                 <label className="block font-bold mb-1">Video URL</label>
                                 <input
                                     type="text"
-                                    className="w-full border rounded p-2 bg-gray-600 text-white"
+                                    className="w-full border rounded p-2 bg-gray-600 text-white mb-2"
                                     value={chapter.videoUrl}
                                     onChange={(e) => updateChapter(index, 'videoUrl', e.target.value)}
                                 />
+                                <input
+                                    type="file"
+                                    accept="video/*"
+                                    className="w-full border rounded p-2 bg-gray-600 text-white mb-2"
+                                    onChange={async (e) => {
+                                        const file = e.target.files[0];
+                                        if (!file) return toast.error('Please select a video file');
+                                        const fd = new FormData();
+                                        fd.append('file', file);
+                                        fd.append('upload_preset', 'hoodhogan');
+                                        fd.append('cloud_name', 'ddsnnqpbv');
+                                        try {
+                                            const result = await axios.post('https://api.cloudinary.com/v1_1/ddsnnqpbv/video/upload', fd);
+                                            updateChapter(index, 'videoUrl', result.data.secure_url);
+                                            toast.success('Video uploaded successfully!');
+                                        } catch (err) {
+                                            console.log(err);
+                                            toast.error('Video upload failed!');
+                                        }
+                                    }}
+                                />
+                                {chapter.videoUrl && (
+                                    <a href={chapter.videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline text-sm">View Uploaded Video</a>
+                                )}
                             </div>
                             <button
                                 type="button"
