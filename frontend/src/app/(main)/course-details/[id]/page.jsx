@@ -127,96 +127,92 @@ const CourseDetails = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <div className="mb-6">
-        <Link href="/browse-course">
-          <button className="flex items-center text-blue-500 hover:text-blue-700">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-            </svg>
-            Back to Courses
-          </button>
-        </Link>
-      </div>
-
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="relative">
-          {course.image ? (
-            <div className="h-64 md:h-96">
-              <img 
-                src={course.image.startsWith('http') ? course.image : `http://localhost:5000/${course.image}`}
-                alt={course.title || "Course image"}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="bg-gray-100 h-64 md:h-96 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
+      <div className="max-w-5xl mx-auto px-4 py-10">
+        <div className="mb-8 flex items-center gap-4">
+          <Link href="/browse-course">
+            <button className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
               </svg>
-            </div>
-          )}
-          
-          <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-white">{course.title}</h1>
-          </div>
+              Back to Courses
+            </button>
+          </Link>
         </div>
 
-        <div className="p-6">
-          <div className="flex flex-wrap gap-2 mb-4">
-            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">{course.level}</span>
-            <span className="bg-gray-500 text-white px-3 py-1 rounded-full text-sm">{course.category}</span>
-            <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm">{course.duration}</span>
-          </div>
-
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">About This Course</h2>
-            <p className="text-gray-700">{course.description || 'No description available for this course.'}</p>
-          </div>
-
-          {/* Chapters Section */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-4">Chapters</h2>
-            {course.chapters && course.chapters.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {course.chapters.map((chapter, index) => (
-                  <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                    <h3 className="font-bold text-lg mb-2">{chapter.title}</h3>
-                    <p className="text-gray-700 mb-4">{chapter.description}</p>
-                    {chapter.videoUrl && (
-                      <a
-                        href={chapter.videoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Watch Video
-                      </a>
-                    )}
-                  </div>
-                ))}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative">
+            {course.image ? (
+              <div className="h-72 md:h-96">
+                <img 
+                  src={course.image.startsWith('http') ? course.image : `http://localhost:5000/${course.image}`}
+                  alt={course.title || 'Course image'}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ) : (
-              <p>No chapters available for this course.</p>
+              <div className="bg-gray-100 h-72 md:h-96 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
             )}
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-8">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">{course.title}</h1>
+            </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-gray-200 pt-6">
-            <div className="mb-4 md:mb-0">
-              <p className="text-gray-600">Price:</p>
-              <p className="text-3xl font-bold text-blue-600">{course.price ? `$${course.price}` : 'Free'}</p>
+          <div className="p-8">
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className="bg-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold">{course.level}</span>
+              <span className="bg-gray-500 text-white px-4 py-1 rounded-full text-sm font-semibold">{course.category}</span>
+              <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold">{course.duration}</span>
             </div>
-            <button 
-              onClick={handleEnroll}
-              disabled={isEnrolled}
-              className={`px-8 py-3 rounded-md transition-colors ${
-                isEnrolled 
-                  ? 'bg-gray-400 cursor-not-allowed text-white'
-                  : 'bg-blue-500 text-white hover:bg-blue-600'
-              }`}
-            >
-              {isEnrolled ? 'Already Enrolled' : 'Enroll Now'}
-            </button>
+
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-2 text-indigo-700">About This Course</h2>
+              <p className="text-gray-700 text-lg leading-relaxed">{course.description || 'No description available for this course.'}</p>
+            </div>
+
+            {/* Chapters Section */}
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold mb-4 text-indigo-700">Chapters</h2>
+              {course.chapters && course.chapters.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {course.chapters.map((chapter, index) => (
+                    <div key={index} className="bg-indigo-50 rounded-xl shadow p-5 flex flex-col justify-between h-full">
+                      <div>
+                        <h3 className="font-bold text-lg mb-2 text-indigo-900">{chapter.title}</h3>
+                        <p className="text-gray-700 mb-4 text-sm">{chapter.description}</p>
+                      </div>
+                      <Link href={`/course-details/${id}/chapters/${chapter._id || index}`}>
+                        <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors w-full font-semibold mt-auto">View Details</button>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No chapters available for this course.</p>
+              )}
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-gray-200 pt-8 mt-8">
+              <div className="mb-4 md:mb-0">
+                <p className="text-gray-600">Price:</p>
+                <p className="text-4xl font-extrabold text-indigo-600">{course.price ? `₹${course.price}` : 'Free'}</p>
+              </div>
+              <button 
+                onClick={handleEnroll}
+                disabled={isEnrolled}
+                className={`px-10 py-4 rounded-full text-lg font-bold transition-colors shadow-lg mt-4 md:mt-0 ${
+                  isEnrolled 
+                    ? 'bg-gray-400 cursor-not-allowed text-white' 
+                    : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-700 hover:to-violet-700'
+                }`}
+              >
+                {isEnrolled ? 'Already Enrolled' : 'Enroll Now'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

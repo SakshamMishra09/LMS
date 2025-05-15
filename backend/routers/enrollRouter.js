@@ -70,23 +70,11 @@ router.get('/checkstatus/:userId/:courseId', async (req, res) => {
 // Add route to get enrolled courses for a user
 router.get('/user/:userId', async (req, res) => {
     try {
-        const { userId } = req.params;
-        const enrollments = await Model.find({ userId })
-            .populate('courseId')
-            .sort({ createdAt: -1 });
-
-        // Transform the data to include course details
-        const formattedEnrollments = enrollments.map(enrollment => ({
-            _id: enrollment._id,
-            course: enrollment.courseId,
-            createdAt: enrollment.createdAt,
-            updatedAt: enrollment.updatedAt
-        }));
-
-        res.json(formattedEnrollments);
+        const enrollments = await Model.find({ userId: req.params.userId }).populate('courseId');
+        res.status(200).json(enrollments);
     } catch (err) {
-        console.error('Error fetching user enrollments:', err);
-        res.status(500).json({ message: 'Error fetching enrolled courses' });
+        console.error(err);
+        res.status(500).json({ message: "Failed to fetch enrolled courses" });
     }
 });
 

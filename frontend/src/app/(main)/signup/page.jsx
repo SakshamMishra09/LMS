@@ -12,6 +12,7 @@ const Signup = () => {
             email: '',
             password: '',
             confirmPassword: '',
+            role: 'student', // default role
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
@@ -22,11 +23,12 @@ const Signup = () => {
             confirmPassword: Yup.string()
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
                 .required('Confirm Password is required'),
+            role: Yup.string().oneOf(['student', 'company'], 'Invalid role'),
         }),
         onSubmit: async (values) => {
             try {
-                const { name, email, password } = values;
-                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/add`, { name, email, password });
+                const { name, email, password, role } = values;
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/add`, { name, email, password, role });
                 toast.success('Signup successful!');
                 // Redirect to login page
                 window.location.href = '/login';
@@ -38,7 +40,7 @@ const Signup = () => {
     });
 
     return (
-        <div className="bg-gray-500 py-20 -mt-12">
+        <div className=" py-20 -mt-12">
             <div className="max-w-lg mx-auto bg-white border border-gray-200 rounded-xl shadow-2xs">
                 <div className="p-4 sm:p-7">
                     <div className="text-center">
@@ -145,6 +147,31 @@ const Signup = () => {
                                     />
                                     {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                                         <p className="text-xs text-red-600 mt-2">{formik.errors.confirmPassword}</p>
+                                    ) : null}
+                                </div>
+
+                                {/* Role Selector */}
+                                <div>
+                                    <label htmlFor="role" className="block text-sm mb-2">
+                                        Role
+                                    </label>
+                                    <select
+                                        id="role"
+                                        name="role"
+                                        className={`border py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 ${
+                                            formik.touched.role && formik.errors.role
+                                                ? 'border-red-500'
+                                                : ''
+                                        }`}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.role}
+                                    >
+                                        <option value="student">Student</option>
+                                        <option value="company">company</option>
+                                    </select>
+                                    {formik.touched.role && formik.errors.role ? (
+                                        <p className="text-xs text-red-600 mt-2">{formik.errors.role}</p>
                                     ) : null}
                                 </div>
 

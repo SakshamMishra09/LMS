@@ -4,14 +4,23 @@ const Model = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 
 router.post('/add', (req, res) => {
-    console.log(req.body);
-    new Model(req.body).save()
+    // Ensure role is set to 'student' or 'user', default to 'student' if invalid or missing
+    let { name, email, password, role } = req.body;
+    if (!role || !['student', 'company'].includes(role)) {
+        role = 'student';
+    }
+    const user = new Model({ name, email, password, role });
+    user.save()
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
             console.log(err);
-            res.status(500).json(err);
-
+            // Handle duplicate email error
+            if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
+                res.status(400).json({ message: 'Email already exists' });
+            } else {
+                res.status(500).json(err);
+            }
         });
 });
 
@@ -50,8 +59,8 @@ router.post('/authenticate', (req, res) => {
         if (result) {
             // login success - generate token
 
-            const{ _id, name, email } = result;
-            const payload = { _id, name, email };
+            const{ _id, name, email, role } = result;
+            const payload = { _id, name, email, role };
 
             jwt.sign(
                 payload,
@@ -62,7 +71,7 @@ router.post('/authenticate', (req, res) => {
                         console.log(err);
                         res.status(500).json(err);
                     } else {
-                        res.status(200).json({token });
+                        res.status(200).json({ token, role });
                     }
                 }
             )

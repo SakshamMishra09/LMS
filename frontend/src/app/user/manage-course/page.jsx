@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const ManageCourse = () => {
 
@@ -36,11 +37,18 @@ const ManageCourse = () => {
                                 <h2 className='font-bold text-xl mb-2'>{course.title}</h2>
                                 <p className='text-gray-700'>Price: ${course.price}</p>
                                 <p className='text-gray-500'>Created At: {new Date(course.createdAt).toLocaleDateString()}</p>
-                                <button 
-                                    onClick={() => { deleteCourse(course._id) }} 
-                                    className='mt-3 bg-red-500 text-white rounded p-2 w-full'>
-                                    Delete
-                                </button>
+                                <div className="flex gap-2 mt-3">
+                                    <Link href={`/user/edit-course/${course._id}`}>
+                                        <button className='bg-blue-500 text-white rounded p-2 w-full'>
+                                            Edit
+                                        </button>
+                                    </Link>
+                                    <button 
+                                        onClick={() => { deleteCourse(course._id) }} 
+                                        className='bg-red-500 text-white rounded p-2 w-full'>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         ))
                     }
