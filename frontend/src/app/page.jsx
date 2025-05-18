@@ -121,6 +121,12 @@ export default function LMSLandingPage() {
         {/* Features Section */}
         <div id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* 3D LMS Images Section */}
+            <div className="mb-16 flex flex-col md:flex-row items-center justify-center gap-8">
+              <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="3D LMS Illustration 1" className="rounded-2xl shadow-xl w-full md:w-1/3 object-cover" />
+              <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80" alt="3D LMS Illustration 2" className="rounded-2xl shadow-xl w-full md:w-1/3 object-cover" />
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="3D LMS Illustration 3" className="rounded-2xl shadow-xl w-full md:w-1/3 object-cover" />
+            </div>
             <motion.div 
               className="text-center"
               initial={{ opacity: 0, y: 20 }}

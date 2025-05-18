@@ -177,76 +177,81 @@ const BrowseCourse = () => {
                 initial="initial"
                 animate="animate"
               >
-                {filteredCourses.map((course) => (
-                  <motion.div
-                    key={course._id}
-                    variants={cardVariants}
-                    whileHover="hover"
-                    className="bg-white rounded-xl shadow-lg overflow-hidden"
-                  >
-                    <div className="relative">
-                      {course.image ? (
-                        <img 
-                          src={course.image}
-                          alt={course.title}
-                          className="w-full h-48 object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-48 bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
-                          <BookOpen className="w-16 h-16 text-white opacity-80" />
-                        </div>
-                      )}
-                      <div className="absolute top-4 right-4 flex gap-2">
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-indigo-600">
-                          {course.level}
-                        </span>
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-indigo-600">
-                          {course.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">{course.title}</h3>
-                      <p className="text-gray-600 mb-4 line-clamp-2">
-                        {course.description || 'No description available'}
-                      </p>
-                      
-                      <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          <span>{course.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Users className="w-4 h-4" />
-                          <span>{course.enrolled || 0} students</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span>{course.rating || '4.5'}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl font-bold text-indigo-600">
-                            {course.price ? `₹${course.price}` : 'Free'}
+                {filteredCourses.map((course) => {
+                  // Use custom image for Mastering React
+                  const isMasteringReact = course.title === "Mastering React";
+                  const courseImage = isMasteringReact ? "spa.jpg" : course.image;
+                  return (
+                    <motion.div
+                      key={course._id}
+                      variants={cardVariants}
+                      whileHover="hover"
+                      className="bg-white rounded-xl shadow-lg overflow-hidden"
+                    >
+                      <div className="relative">
+                        {courseImage ? (
+                          <img 
+                            src={courseImage}
+                            alt={course.title}
+                            className="w-full h-48 object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-48 bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
+                            <BookOpen className="w-16 h-16 text-white opacity-80" />
+                          </div>
+                        )}
+                        <div className="absolute top-4 right-4 flex gap-2">
+                          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-indigo-600">
+                            {course.level}
+                          </span>
+                          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-indigo-600">
+                            {course.category}
                           </span>
                         </div>
-                        <Link href={`/course-details/${course._id}`}>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-                          >
-                            View Course
-                            <ChevronRight className="w-4 h-4" />
-                          </motion.button>
-                        </Link>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+
+                      <div className="p-6">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2">{course.title}</h3>
+                        <p className="text-gray-600 mb-4 line-clamp-2">
+                          {course.description || 'No description available'}
+                        </p>
+                        
+                        <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            <span>{course.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users className="w-4 h-4" />
+                            <span>{course.enrolled || 0} students</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            <span>{course.rating || '4.5'}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl font-bold text-indigo-600">
+                              {course.price ? `₹${course.price}` : 'Free'}
+                            </span>
+                          </div>
+                          <Link href={`/course-details/${course._id}`}>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                            >
+                              View Course
+                              <ChevronRight className="w-4 h-4" />
+                            </motion.button>
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             )}
           </div>
