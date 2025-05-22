@@ -1,6 +1,8 @@
 require('dotenv').config();
+
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+
 const UserRouter = require('./routers/userRouter');
 const CourseRouter = require('./routers/courseRouter');
 const EnrollRouter = require('./routers/enrollRouter');
@@ -35,8 +37,6 @@ app.get('/',(req, res) => {
 app.get('/add',(req, res) => {
     res.send('response from add');
 });
-//getall
-//delete ka banana hai
 
 app.listen(port, () => {
     console.log(`server started - ${port}`);

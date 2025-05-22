@@ -7,8 +7,10 @@ import toast from 'react-hot-toast';
 
 const AddCourse = () => {
     const [chapters, setChapters] = useState([]);
+
     const levels = ['Beginner', 'Intermediate', 'Advanced'];
-    const categories = ['Programming', 'Business', 'Design', 'Marketing', 'Languages', 'Personal Development'];
+
+    const categories = ['Programming', 'Business', 'Design', 'Marketing', 'Languages', 'Personality Development'];
 
     const addChapter = () => {
         setChapters([...chapters, { title: '', description: '', videoUrl: '' }]);
@@ -84,6 +86,7 @@ const AddCourse = () => {
                 toast.error('File upload failed!');
             });
     };
+
     const uploadVideoFile = (e) => {
         const file = e.target.files[0];
         if (!file) {
