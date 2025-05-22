@@ -39,13 +39,15 @@ const ManageCourse = () => {
                                 <p className='text-gray-500'>Created At: {new Date(course.createdAt).toLocaleDateString()}</p>
                                 <div className="flex gap-2 mt-3">
                                     <Link href={`/user/edit-course/${course._id}`}>
-                                        <button className='bg-blue-500 text-white rounded p-2 w-full'>
-                                            Edit
-                                        </button>
+                                        <button className='bg-blue-500 text-white rounded p-2 w-full'>Edit</button>
                                     </Link>
-                                    <button 
-                                        onClick={() => { deleteCourse(course._id) }} 
-                                        className='bg-red-500 text-white rounded p-2 w-full'>
+                                    <Link href={`/user/update-course/${course._id}`}>
+                                        <button className='bg-green-500 text-white rounded p-2 w-full'>Update</button>
+                                    </Link>
+                                    <button
+                                        onClick={() => deleteCourse(course._id)}
+                                        className='bg-red-500 text-white rounded p-2 w-full'
+                                    >
                                         Delete
                                     </button>
                                 </div>

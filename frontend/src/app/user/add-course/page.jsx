@@ -108,236 +108,233 @@ const AddCourse = () => {
     };
 
     return (
-        <div className="container mx-auto py-10 bg-gray-900 text-white min-h-screen">
-            <h1 className="text-center font-bold text-4xl mb-5">Add New Course</h1>
-            <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto bg-gray-800 p-6 rounded shadow">
-                {/* Title field */}
-                <div className="mb-4">
-                    <label htmlFor="title" className="block font-bold mb-2">Title *</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.title}
-                    />
-                    {formik.touched.title && formik.errors.title ? (
-                        <div className="text-red-400 text-sm">{formik.errors.title}</div>
-                    ) : null}
-                </div>
-
-                {/* Description field */}
-                <div className="mb-4">
-                    <label htmlFor="description" className="block font-bold mb-2">Description *</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        rows="4"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.description}
-                    />
-                    {formik.touched.description && formik.errors.description ? (
-                        <div className="text-red-400 text-sm">{formik.errors.description}</div>
-                    ) : null}
-                </div>
-
-                {/* Image field */}
-                <div className="mb-4">
-                    <label htmlFor="image" className="block font-bold mb-2">Image *</label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={uploadFile}
-                    />
-                    {formik.touched.image && formik.errors.image ? (
-                        <div className="text-red-400 text-sm">{formik.errors.image}</div>
-                    ) : null}
-                </div>
-
-                {/* Category field */}
-                <div className="mb-4">
-                    <label htmlFor="category" className="block font-bold mb-2">Category *</label>
-                    <select
-                        id="category"
-                        name="category"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.category}
-                    >
-                        <option value="">Select a category</option>
-                        {categories.map(category => (
-                            <option key={category} value={category}>{category}</option>
-                        ))}
-                    </select>
-                    {formik.touched.category && formik.errors.category ? (
-                        <div className="text-red-400 text-sm">{formik.errors.category}</div>
-                    ) : null}
-                </div>
-
-                {/* Level field */}
-                <div className="mb-4">
-                    <label htmlFor="level" className="block font-bold mb-2">Level *</label>
-                    <select
-                        id="level"
-                        name="level"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.level}
-                    >
-                        <option value="">Select a level</option>
-                        {levels.map(level => (
-                            <option key={level} value={level}>{level}</option>
-                        ))}
-                    </select>
-                    {formik.touched.level && formik.errors.level ? (
-                        <div className="text-red-400 text-sm">{formik.errors.level}</div>
-                    ) : null}
-                </div>
-
-                {/* Price field */}
-                <div className="mb-4">
-                    <label htmlFor="price" className="block font-bold mb-2">Price *</label>
-                    <input
-                        type="text"
-                        id="price"
-                        name="price"
-                        placeholder="e.g., Free, $29.99"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.price}
-                    />
-                    {formik.touched.price && formik.errors.price ? (
-                        <div className="text-red-400 text-sm">{formik.errors.price}</div>
-                    ) : null}
-                </div>
-
-                {/* Duration field */}
-                <div className="mb-4">
-                    <label htmlFor="duration" className="block font-bold mb-2">Duration *</label>
-                    <input
-                        type="text"
-                        id="duration"
-                        name="duration"
-                        placeholder="e.g., 2 hours, 8 weeks"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.duration}
-                    />
-                    {formik.touched.duration && formik.errors.duration ? (
-                        <div className="text-red-400 text-sm">{formik.errors.duration}</div>
-                    ) : null}
-                </div>
-
-                {/* Language field */}
-                <div className="mb-4">
-                    <label htmlFor="language" className="block font-bold mb-2">Language *</label>
-                    <input
-                        type="text"
-                        id="language"
-                        name="language"
-                        placeholder="e.g., English, Spanish"
-                        className="w-full border rounded p-2 bg-gray-700 text-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.language}
-                    />
-                    {formik.touched.language && formik.errors.language ? (
-                        <div className="text-red-400 text-sm">{formik.errors.language}</div>
-                    ) : null}
-                </div>
-
-                {/* Chapters Section */}
-                <div className="mb-4">
-                    <h2 className="font-bold text-lg mb-2">Chapters</h2>
-                    {chapters.map((chapter, index) => (
-                        <div key={index} className="mb-4 border p-4 rounded bg-gray-700">
-                            <div className="mb-2">
-                                <label className="block font-bold mb-1">Chapter Title</label>
-                                <input
-                                    type="text"
-                                    className="w-full border rounded p-2 bg-gray-600 text-white"
-                                    value={chapter.title}
-                                    onChange={(e) => updateChapter(index, 'title', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-bold mb-1">Chapter Description</label>
-                                <textarea
-                                    className="w-full border rounded p-2 bg-gray-600 text-white"
-                                    value={chapter.description}
-                                    onChange={(e) => updateChapter(index, 'description', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-bold mb-1">Video URL</label>
-                                <input
-                                    type="text"
-                                    className="w-full border rounded p-2 bg-gray-600 text-white mb-2"
-                                    value={chapter.videoUrl}
-                                    onChange={(e) => updateChapter(index, 'videoUrl', e.target.value)}
-                                />
-                                <input
-                                    type="file"
-                                    accept="video/*"
-                                    className="w-full border rounded p-2 bg-gray-600 text-white mb-2"
-                                    onChange={async (e) => {
-                                        const file = e.target.files[0];
-                                        if (!file) return toast.error('Please select a video file');
-                                        const fd = new FormData();
-                                        fd.append('file', file);
-                                        fd.append('upload_preset', 'hoodhogan');
-                                        fd.append('cloud_name', 'ddsnnqpbv');
-                                        try {
-                                            const result = await axios.post('https://api.cloudinary.com/v1_1/ddsnnqpbv/video/upload', fd);
-                                            updateChapter(index, 'videoUrl', result.data.secure_url);
-                                            toast.success('Video uploaded successfully!');
-                                        } catch (err) {
-                                            console.log(err);
-                                            toast.error('Video upload failed!');
-                                        }
-                                    }}
-                                />
-                                {chapter.videoUrl && (
-                                    <a href={chapter.videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline text-sm">View Uploaded Video</a>
-                                )}
-                            </div>
-                            <button
-                                type="button"
-                                onClick={() => removeChapter(index)}
-                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-10 px-2">
+            <div className="max-w-3xl mx-auto bg-white/10 rounded-2xl shadow-2xl p-8">
+                <h1 className="text-4xl font-extrabold text-center text-indigo-300 mb-8 tracking-tight">Add New Course</h1>
+                <form onSubmit={formik.handleSubmit} className="space-y-8">
+                    {/* Title field */}
+                    <div>
+                        <label htmlFor="title" className="block font-bold mb-2 text-indigo-200">Title *</label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            className="w-full border-none rounded-lg p-3 bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.title}
+                        />
+                        {formik.touched.title && formik.errors.title && (
+                            <div className="text-red-400 text-sm mt-1">{formik.errors.title}</div>
+                        )}
+                    </div>
+                    {/* Description field */}
+                    <div>
+                        <label htmlFor="description" className="block font-bold mb-2 text-indigo-200">Description *</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="4"
+                            className="w-full border-none rounded-lg p-3 bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.description}
+                        />
+                        {formik.touched.description && formik.errors.description && (
+                            <div className="text-red-400 text-sm mt-1">{formik.errors.description}</div>
+                        )}
+                    </div>
+                    {/* Image field */}
+                    <div>
+                        <label htmlFor="image" className="block font-bold mb-2 text-indigo-200">Image *</label>
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                            className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                            onChange={uploadFile}
+                        />
+                        {formik.values.image && (
+                            <img src={formik.values.image} alt="Course" className="h-24 rounded mt-2 border-2 border-indigo-400 mx-auto" />
+                        )}
+                        {formik.touched.image && formik.errors.image && (
+                            <div className="text-red-400 text-sm mt-1">{formik.errors.image}</div>
+                        )}
+                    </div>
+                    {/* Category & Level */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="category" className="block font-bold mb-2 text-indigo-200">Category *</label>
+                            <select
+                                id="category"
+                                name="category"
+                                className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.category}
                             >
-                                Remove Chapter
-                            </button>
+                                <option value="">Select a category</option>
+                                {categories.map(category => (
+                                    <option key={category} value={category}>{category}</option>
+                                ))}
+                            </select>
+                            {formik.touched.category && formik.errors.category && (
+                                <div className="text-red-400 text-sm mt-1">{formik.errors.category}</div>
+                            )}
                         </div>
-                    ))}
+                        <div>
+                            <label htmlFor="level" className="block font-bold mb-2 text-indigo-200">Level *</label>
+                            <select
+                                id="level"
+                                name="level"
+                                className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.level}
+                            >
+                                <option value="">Select a level</option>
+                                {levels.map(level => (
+                                    <option key={level} value={level}>{level}</option>
+                                ))}
+                            </select>
+                            {formik.touched.level && formik.errors.level && (
+                                <div className="text-red-400 text-sm mt-1">{formik.errors.level}</div>
+                            )}
+                        </div>
+                    </div>
+                    {/* Price & Duration */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="price" className="block font-bold mb-2 text-indigo-200">Price *</label>
+                            <input
+                                type="text"
+                                id="price"
+                                name="price"
+                                placeholder="e.g., Free, $29.99"
+                                className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.price}
+                            />
+                            {formik.touched.price && formik.errors.price && (
+                                <div className="text-red-400 text-sm mt-1">{formik.errors.price}</div>
+                            )}
+                        </div>
+                        <div>
+                            <label htmlFor="duration" className="block font-bold mb-2 text-indigo-200">Duration *</label>
+                            <input
+                                type="text"
+                                id="duration"
+                                name="duration"
+                                placeholder="e.g., 2 hours, 8 weeks"
+                                className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.duration}
+                            />
+                            {formik.touched.duration && formik.errors.duration && (
+                                <div className="text-red-400 text-sm mt-1">{formik.errors.duration}</div>
+                            )}
+                        </div>
+                    </div>
+                    {/* Language field */}
+                    <div>
+                        <label htmlFor="language" className="block font-bold mb-2 text-indigo-200">Language *</label>
+                        <input
+                            type="text"
+                            id="language"
+                            name="language"
+                            placeholder="e.g., English, Spanish"
+                            className="w-full border-none rounded-lg p-3 bg-gray-800 text-white"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.language}
+                        />
+                        {formik.touched.language && formik.errors.language && (
+                            <div className="text-red-400 text-sm mt-1">{formik.errors.language}</div>
+                        )}
+                    </div>
+                    {/* Chapters Section */}
+                    <div>
+                        <h2 className="font-bold text-lg mb-4 text-indigo-200">Chapters</h2>
+                        {chapters.map((chapter, index) => (
+                            <div key={index} className="mb-6 border border-indigo-400 p-4 rounded-xl bg-gray-800">
+                                <div className="mb-2">
+                                    <label className="block font-bold mb-1 text-indigo-100">Chapter Title</label>
+                                    <input
+                                        type="text"
+                                        className="w-full border-none rounded p-2 bg-gray-700 text-white"
+                                        value={chapter.title}
+                                        onChange={(e) => updateChapter(index, 'title', e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-bold mb-1 text-indigo-100">Chapter Description</label>
+                                    <textarea
+                                        className="w-full border-none rounded p-2 bg-gray-700 text-white"
+                                        value={chapter.description}
+                                        onChange={(e) => updateChapter(index, 'description', e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-bold mb-1 text-indigo-100">Video URL</label>
+                                    <input
+                                        type="text"
+                                        className="w-full border-none rounded p-2 bg-gray-700 text-white mb-2"
+                                        value={chapter.videoUrl}
+                                        onChange={(e) => updateChapter(index, 'videoUrl', e.target.value)}
+                                    />
+                                    <input
+                                        type="file"
+                                        accept="video/*"
+                                        className="w-full border-none rounded p-2 bg-gray-700 text-white mb-2"
+                                        onChange={async (e) => {
+                                            const file = e.target.files[0];
+                                            if (!file) return toast.error('Please select a video file');
+                                            const fd = new FormData();
+                                            fd.append('file', file);
+                                            fd.append('upload_preset', 'hoodhogan');
+                                            fd.append('cloud_name', 'ddsnnqpbv');
+                                            try {
+                                                const result = await axios.post('https://api.cloudinary.com/v1_1/ddsnnqpbv/video/upload', fd);
+                                                updateChapter(index, 'videoUrl', result.data.secure_url);
+                                                toast.success('Video uploaded successfully!');
+                                            } catch (err) {
+                                                toast.error('Video upload failed!');
+                                            }
+                                        }}
+                                    />
+                                    {chapter.videoUrl && (
+                                        <a href={chapter.videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline text-sm">View Uploaded Video</a>
+                                    )}
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => removeChapter(index)}
+                                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"
+                                >
+                                    Remove Chapter
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={addChapter}
+                            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 mt-2"
+                        >
+                            Add Chapter
+                        </button>
+                    </div>
                     <button
-                        type="button"
-                        onClick={addChapter}
-                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        type="submit"
+                        disabled={formik.isSubmitting}
+                        className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 text-lg font-bold disabled:bg-green-300 disabled:cursor-not-allowed mt-4 shadow-lg"
                     >
-                        Add Chapter
+                        {formik.isSubmitting ? 'Adding Course...' : 'Add Course'}
                     </button>
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={formik.isSubmitting}
-                    className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 disabled:bg-green-300 disabled:cursor-not-allowed"
-                >
-                    {formik.isSubmitting ? 'Adding Course...' : 'Add Course'}
-                </button>
-            </form>
+                </form>
+            </div>
         </div>
     );
 };

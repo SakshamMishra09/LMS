@@ -114,7 +114,9 @@ export default function LMSLandingPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-violet-100 rounded-l-3xl transform -skew-x-12 origin-top-right"></div>
+            <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-violet-100 rounded-l-3xl transform -skew-x-12 origin-top-right">
+              <img src="https://www.bing.com/images/search?view=detailV2&ccid=oFKlo%2b6U&id=3C564CFB038E692B6B45F56DDFFC4CAA02FBA6DA&thid=OIP.oFKlo-6Uvp-baGUMK-q78QHaEK&mediaurl=https%3a%2f%2fwww.marketing91.com%2fwp-content%2fuploads%2f2020%2f09%2fLearning-Management-System.jpg&exph=1080&expw=1920&q=learning+management+systems+lms&simid=607995120535298195&FORM=IRPRST&ck=7D855C10030D75CBD26742EDCE41C611&selectedIndex=3&itb=0" alt="" />
+            </div>
           </motion.div>
         </div>
 

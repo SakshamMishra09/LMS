@@ -180,7 +180,6 @@ const BrowseCourse = () => {
                 {filteredCourses.map((course) => {
                   // Use custom image for Mastering React
                   const isMasteringReact = course.title === "Mastering React";
-                  const courseImage = isMasteringReact ? "spa.jpg" : course.image;
                   return (
                     <motion.div
                       key={course._id}
@@ -189,9 +188,9 @@ const BrowseCourse = () => {
                       className="bg-white rounded-xl shadow-lg overflow-hidden"
                     >
                       <div className="relative">
-                        {courseImage ? (
+                        {course.image ? (
                           <img 
-                            src={courseImage}
+                            src={course.image}
                             alt={course.title}
                             className="w-full h-48 object-cover"
                           />

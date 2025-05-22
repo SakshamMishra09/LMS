@@ -6,6 +6,7 @@ const CourseRouter = require('./routers/courseRouter');
 const EnrollRouter = require('./routers/enrollRouter');
 const feedbackrouter = require('./routers/Feedbackrouters');
 const ProgressRouter = require('./routers/progressRouter');
+const contactRouter = require('./routers/contactRouter');
 
 
 const app = express();
@@ -23,6 +24,8 @@ app.use('/course', CourseRouter);
 app.use('/enroll', EnrollRouter);
 app.use('/feedback', feedbackrouter);
 app.use('/progress', ProgressRouter);
+app.use('/contact', contactRouter);
+
 
 //end point route
 app.get('/',(req, res) => {

@@ -1,57 +1,45 @@
-const express = require("express");
-const Feedback = require("../models/FeedbackModel");
-
+const express = require('express');
 const router = express.Router();
+const Feedback = require('../models/FeedbackModel');
 
-// Route to submit feedback
-router.post("/submit", async (req, res) => {
+// Add feedback
+router.post('/add', async (req, res) => {
   try {
-    const { userId, rating, feedbackType, feedbackText, isAnonymous } = req.body;
-
-    const feedback = new Feedback({
-      userId,
-      rating,
-      feedbackType,
-      feedbackText,
-      isAnonymous,
-    });
-
-    await feedback.save();
-    res.status(201).json({ message: "Feedback submitted successfully", feedback });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to submit feedback" });
+    const feedback = new Feedback(req.body);
+    const saved = await feedback.save();
+    res.status(200).json(saved);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Route to get all feedback
-router.get("/", async (req, res) => {
+// Get all feedbacks
+router.get('/getall', async (req, res) => {
   try {
-    const feedbacks = await Feedback.find().populate("userId", "name email");
+    const feedbacks = await Feedback.find().populate('user').populate('course').sort({ createdAt: -1 });
     res.status(200).json(feedbacks);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch feedbacks" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Route to get feedback by user ID
-router.get("/user/:userId", async (req, res) => {
+// Get feedbacks for a specific course
+router.get('/course/:courseId', async (req, res) => {
   try {
-    const { userId } = req.params;
-    const feedbacks = await Feedback.find({ userId });
+    const feedbacks = await Feedback.find({ course: req.params.courseId }).populate('user').sort({ createdAt: -1 });
     res.status(200).json(feedbacks);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch feedbacks for the user" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Route to delete feedback by ID
-router.delete("/:id", async (req, res) => {
+// Delete feedback by id
+router.delete('/delete/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-    await Feedback.findByIdAndDelete(id);
-    res.status(200).json({ message: "Feedback deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to delete feedback" });
+    await Feedback.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Feedback deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

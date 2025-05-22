@@ -1,12 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { jwtDecode } from 'jwt-decode';
 
 const TrackCourse = () => {
 //   const searchParams = useSearchParams();
   const {courseId} = useParams();
+  const router = useRouter();
   
   const [course, setCourse] = useState(null);
   const [currentModule, setCurrentModule] = useState(null);
@@ -139,6 +140,11 @@ const TrackCourse = () => {
   // Switch to different module
   const handleModuleChange = (module) => {
     setCurrentModule(module);
+  };
+
+  // Add a function to navigate to track course
+  const handleTrackCourse = (courseId) => {
+    router.push(`/student/track-course/${courseId}`);
   };
 
   if (loading) {

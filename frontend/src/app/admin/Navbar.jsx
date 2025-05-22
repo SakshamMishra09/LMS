@@ -33,8 +33,7 @@ const Navbar = () => {
             <div className="hidden md:ml-6 md:flex md:space-x-8">
               <Link href="/admin/dashboard" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-indigo-600">Dashboard</Link>
               <Link href="/admin/manage-user" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-indigo-600">Manage-User</Link>
-              <a href="/admin/manage-feedback" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-indigo-600">Manage-Feedback</a>
-              <a href="/admin/contact" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-indigo-600">Contact</a>
+              <Link href="/admin/manage-contact" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-indigo-600">Contact</Link>
             </div>
           </div>
           <div className="flex items-center">

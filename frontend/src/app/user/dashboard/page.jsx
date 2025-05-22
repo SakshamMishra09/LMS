@@ -33,11 +33,7 @@ const Dashboard = () => {
             <p className="text-gray-500">See feedback and reviews from students.</p>
           </Link>
           {/* Profile */}
-          <Link href="/user/profile" className="block bg-white rounded-xl shadow-md hover:shadow-xl transition p-8 text-center border border-indigo-100 hover:border-indigo-400">
-            <FaUserGraduate className="mx-auto text-indigo-600 mb-4" size={40} />
-            <h2 className="text-xl font-semibold mb-2">Company Profile</h2>
-            <p className="text-gray-500">View and update your company profile information.</p>
-          </Link>
+
         </div>
       </div>
     </div>

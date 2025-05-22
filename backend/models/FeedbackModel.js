@@ -1,34 +1,38 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require('../connection');
 
-const FeedbackSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const feedbackSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    required: false
+  },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'courses',
+    required: false
   },
   rating: {
     type: Number,
-    required: true,
     min: 1,
     max: 5,
+    required: true
   },
-  feedbackType: {
+  type: {
     type: String,
-    enum: ["general", "course", "platform", "technical", "suggestion"],
-    required: true,
+    enum: ['general', 'course', 'platform', 'technical', 'suggestion'],
+    default: 'general',
+    required: true
   },
-  feedbackText: {
+  feedback: {
     type: String,
     required: true,
-  },
-  isAnonymous: {
-    type: Boolean,
-    default: false,
+    trim: true
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
-module.exports = mongoose.model("Feedback", FeedbackSchema);
+const Feedback = model('Feedback', feedbackSchema);
+module.exports = Feedback;

@@ -7,7 +7,6 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
     message: ''
   });
   const [formStatus, setFormStatus] = useState(null);
@@ -20,19 +19,29 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormStatus('success');
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-    setTimeout(() => {
-      setFormStatus(null);
-    }, 5000);
+    setFormStatus(null);
+    try {
+      const res = await fetch('http://localhost:5000/contact/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
+      if (res.ok) {
+        console.log('Message sent successfully');
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setFormStatus('error');
+      }
+    } catch (err) {
+      setFormStatus('error');
+    }
   };
 
   const fadeIn = {
@@ -70,7 +79,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Information & Form Section */}
-      <section className="py-20">
+      <section className="py-20 px-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
@@ -97,7 +106,7 @@ export default function Contact() {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">Email</h3>
-                    <p className="text-gray-600">support@lmsplatform.com</p>
+                    <p className="text-gray-600">support@vhgv.com</p>
                   </div>
                 </motion.div>
 
@@ -181,6 +190,16 @@ export default function Contact() {
                   </motion.div>
                 )}
                 
+                {formStatus === 'error' && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+                  >
+                    <p>Oops! Something went wrong. Please try again.</p>
+                  </motion.div>
+                )}
+                
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -211,22 +230,6 @@ export default function Contact() {
                       required
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
                       placeholder="your@email.com"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
-                      placeholder="What's this about?"
                     />
                   </div>
                   
